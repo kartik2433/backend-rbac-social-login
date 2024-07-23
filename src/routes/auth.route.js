@@ -14,8 +14,6 @@ const upload = multer();
 
 // Register
 router.post("/register", upload.any() , async (req, res) => {
-  console.log("Register Api Called.")
-  console.log(req.body)
   const { username, email, password, role } = req.body;
   const user = new User({
     username,
@@ -30,7 +28,7 @@ router.post("/register", upload.any() , async (req, res) => {
 // Login
 router.post("/login", upload.any(), async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login Route Called...",req.body)
+  // console.log("Login Route Called...",req.body)
   const user = await User.findOne({ email });
   if (!user || !compareSync(password, user.password)) {
     return res.status(400).json({ message: "Invalid Credentials" });

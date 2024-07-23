@@ -20,7 +20,7 @@ passport.use(
       let user = await User.findOne({
         googleId: profile.id,
       });
-      console.log("Google Profile ",profile)
+      // console.log("Google Profile ",profile)
 
       if (!user) {
         user = new User({
@@ -47,7 +47,7 @@ passport.use(
         githubId: profile.id,
         username: profile?.username,
       });
-      console.log("Github Profile ", profile);
+      // console.log("Github Profile ", profile);
       if (!user) {
         user = new User({
           githubId: profile.id,
@@ -70,7 +70,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({ microsoftId: profile.id }); 
-      console.log("Microsoft Profile ", profile);
+      // console.log("Microsoft Profile ", profile);
 
       if (!user) {
         user = new User({
