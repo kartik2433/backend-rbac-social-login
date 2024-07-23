@@ -64,13 +64,12 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
   (req, res) => {
-    console.log(req.user);
     const token = sign(
       { _id: req.user._id, role: req.user.role },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
-    );
-    res.status(200).json({message: "User Successfully Authenticated Using Google.", token });
+    );    
+    res.status(200).json({message: "User Successfully Authenticated Using Google.",User: req.user, token});
   }
 );
 
@@ -88,7 +87,10 @@ router.get(
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.json({message: "User Successfully Authenticated Using Github." , token });
+    res.json({
+      message: "User Successfully Authenticated Using Github.",
+      User: req.user, token,
+    });
   }
 );
 
@@ -106,7 +108,11 @@ router.get(
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.json({ message: "User Successfully Authenticated Using Microsoft." , token });
+    res.json({
+      message: "User Successfully Authenticated Using Microsoft.",
+      User: req.user,
+      token,
+    });
   }
 );
 

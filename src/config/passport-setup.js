@@ -19,7 +19,6 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({
         googleId: profile.id,
-        username: profile?.emails[0]?.value.split("@")[0],
       });
       console.log("Google Profile ",profile)
 
@@ -28,7 +27,6 @@ passport.use(
           googleId: profile.id,
           username: profile?.emails[0]?.value.split('@')[0],
           email: profile?.emails[0]?.value,
-          
         });
         await user.save();
       }
