@@ -14,7 +14,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/auth/google/callback",
+      callbackURL: "https://backend-rbac-social-login.onrender.com/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({
@@ -40,7 +40,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "/api/auth/github/callback",
+      callbackURL: "https://backend-rbac-social-login.onrender.com/api/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({
@@ -66,7 +66,7 @@ passport.use(
     {
       clientID: process.env.MICROSOFT_CLIENT_ID,
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-      callbackURL: "/api/auth/microsoft/callback",
+      callbackURL: "https://backend-rbac-social-login.onrender.com/api/auth/microsoft/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({ microsoftId: profile.id }); 
