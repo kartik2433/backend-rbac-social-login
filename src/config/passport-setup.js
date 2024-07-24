@@ -75,7 +75,7 @@ passport.use(
       if (!user) {
         user = new User({
           microsoftId: profile.id,
-          username: profile?.mail.split("@")[0],
+          username: profile?.mail?.split("@")[0],
           email: profile?.mail,
         });
         await user.save();
