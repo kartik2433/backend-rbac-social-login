@@ -18,14 +18,15 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({
-        googleId: profile.id,
+        $or:[
+          {googleId: profile.id},
+          {email: profile?.emails[0]?.value},
+        ]
       });
-      // console.log("Google Profile ",profile)
-
       if (!user) {
         user = new User({
           googleId: profile.id,
-          username: profile?.emails[0]?.value.split('@')[0],
+          username: profile?.emails[0].value?.split("@")[0],
           email: profile?.emails[0]?.value,
         });
         await user.save();
@@ -44,8 +45,10 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({
-        githubId: profile.id,
-        username: profile?.username,
+        $or: [
+          { githubId: profile.id }, 
+          {username: profile?.username }
+        ],
       });
       // console.log("Github Profile ", profile);
       if (!user) {
@@ -66,17 +69,19 @@ passport.use(
     {
       clientID: process.env.MICROSOFT_CLIENT_ID,
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-      callbackURL: "https://backend-rbac-social-login.onrender.com/api/auth/microsoft/callback",
+      callbackURL:
+        "https://backend-rbac-social-login.onrender.com/api/auth/microsoft/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      let user = await User.findOne({ microsoftId: profile.id }); 
-      // console.log("Microsoft Profile ", profile);
-
+      let user = await User.findOne({
+        $or: [{ microsoftId: profile.id }, { email: profile?.emails[0].value }],
+      });
+      console.log("Microsoft Profile ", profile);
       if (!user) {
         user = new User({
           microsoftId: profile.id,
-          username: profile?.mail?.split("@")[0],
-          email: profile?.mail,
+          username: profile?.emails[0].value?.split("@")[0],
+          email: profile?.emails[0].value,
         });
         await user.save();
       }
